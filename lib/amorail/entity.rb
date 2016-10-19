@@ -69,7 +69,7 @@ module Amorail
       merge_params(info)
       merge_custom_fields(info['custom_fields'])
       @my_custom = {}
-      info['custom_fields'].map{|cf| @my_custom[cf['name']] = cf['values'].first['value'] if cf['values'].first}
+      info['custom_fields'].map{|cf| @my_custom[cf['name']] = cf['values'].first['value'] if cf['values'].first} if info['custom_fields']
       self
     end
 
