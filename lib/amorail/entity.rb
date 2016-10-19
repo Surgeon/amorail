@@ -1,7 +1,7 @@
 require 'active_model'
 
 module Amorail
-  # Core class for all Amo entities (company, contact, etc)
+  # Core class for all Amo entities (company, contact, etc)!
   class Entity
     include ActiveModel::Model
     include ActiveModel::AttributeMethods
@@ -68,7 +68,13 @@ module Amorail
     def reload_model(info)
       merge_params(info)
       merge_custom_fields(info['custom_fields'])
+      @my_custom = {}
+      info['custom_fields'].map{|cf| @my_custom[cf['name']] = cf['values'].first['value'] if cf['values'].first}
       self
+    end
+
+    def get_custom_fields
+      @my_custom
     end
 
     private
