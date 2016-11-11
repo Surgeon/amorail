@@ -66,6 +66,7 @@ module Amorail
     require 'amorail/entity/finders'
 
     def reload_model(info)
+      info = info.last if info.class == Array
       merge_params(info)
       merge_custom_fields(info['custom_fields'])
       @my_custom = {}
