@@ -40,24 +40,26 @@ module Amorail
       response
     end
 
-    def safe_request(method, url, params = {})
-      send(method, url, params)
+    def safe_request(method, url, params = {}, modified = nil)
+      send(method, url, params, modified)
     rescue ::Amorail::AmoUnauthorizedError
       authorize
-      send(method, url, params)
+      send(method, url, params, modified)
     end
 
-    def get(url, params = {})
+    def get(url, params = {}, modified = nil)
       response = connect.get(url, params) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
+        request.headers['if-modified-since'] = modified if modified.present?
       end
       handle_response(response)
     end
 
-    def post(url, params = {})
+    def post(url, params = {}, modified = nil)
       response = connect.post(url) do |request|
         request.headers['Cookie'] = cookies if cookies.present?
         request.headers['Content-Type'] = 'application/json'
+        request.headers['if-modified-since'] = modified if modified.present?
         request.body = params.to_json
       end
       handle_response(response)
