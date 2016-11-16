@@ -36,12 +36,12 @@ module Amorail # :nodoc: all
         load_many(response)
       end
       
-      def find_with_modified(modified)
+      def find_with_modified(modified, params = {})
         response = client.safe_request(
             :get,
             remote_url('list'),
-            {},
-            modified.strftime('%a, %e %b %Y %H:%M:%S')
+            params,
+            modified && modified.strftime('%a, %e %b %Y %H:%M:%S')
         )
         load_many(response)
       end
