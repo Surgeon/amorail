@@ -46,6 +46,19 @@ module Amorail # :nodoc: all
         load_many(response)
       end
 
+      def find_notes(type, *ids)
+        response = client.safe_request(
+            :get,
+            remote_url('list'),
+            {type: type, id: ids}
+        )
+        load_many(response)
+      end
+
+      def find_note(type, id)
+        new.load_note(type, id)
+      end
+
       private
 
       def load_many(response)
@@ -61,6 +74,15 @@ module Amorail # :nodoc: all
         :get,
         remote_url('list'),
         id: id
+      )
+      handle_response(response, 'load')
+    end
+
+    def load_note(type, id)
+      response = client.safe_request(
+          :get,
+          remote_url('list'),
+          {type: type, id: id}
       )
       handle_response(response, 'load')
     end
